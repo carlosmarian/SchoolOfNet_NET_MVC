@@ -22,19 +22,19 @@ namespace WebApplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(PessoaModels model)
+        public ActionResult Create(Pessoa model)
         {
 
             ModelState.Remove("Codigo");
 
-            List<PessoaModels> lista = new List<PessoaModels>();
+            List<Pessoa> lista = new List<Pessoa>();
 
             if (ModelState.IsValid)
             {
 
                 if (Session["ListaPessoas"] != null)
                 {
-                    lista.AddRange((List<PessoaModels>)Session["ListaPessoas"]);
+                    lista.AddRange((List<Pessoa>)Session["ListaPessoas"]);
                 }
                 model.Codigo = lista.Count;// (new Random()).Next(1, 100);
                 lista.Add(model);
@@ -52,32 +52,32 @@ namespace WebApplication.Controllers
         [HttpGet]
         public ActionResult Edit (int id)
         {
-            if( ( (List<PessoaModels>) Session["ListaPessoas"]).Where(p=>p.Codigo == id).Any())
+            if( ( (List<Pessoa>) Session["ListaPessoas"]).Where(p=>p.Codigo == id).Any())
             {
                 //Recuperar objeto com id
-                var model = ((List<PessoaModels>)Session["ListaPessoas"]).
+                var model = ((List<Pessoa>)Session["ListaPessoas"]).
                     Where(p => p.Codigo == id).
                     FirstOrDefault();
                 //Enviar objeto para view;
                 return View("Create", model);
             }
 
-            return View("Create", new PessoaModels());
+            return View("Create", new Pessoa());
         }
 
         [HttpPost]
-        public ActionResult Edit(PessoaModels model)
+        public ActionResult Edit(Pessoa model)
         {
             if(Session["ListaPessoas"] == null)
             {
-                return View("List", new List<PessoaModels>());
+                return View("List", new List<Pessoa>());
             }
-            if (!((List<PessoaModels>)Session["ListaPessoas"]).Where(p => p.Codigo == model.Codigo).Any())
+            if (!((List<Pessoa>)Session["ListaPessoas"]).Where(p => p.Codigo == model.Codigo).Any())
             {
-                return View("List", new List<PessoaModels>());                
+                return View("List", new List<Pessoa>());                
             }
 
-            List<PessoaModels> lista = (List<PessoaModels>)Session["ListaPessoas"];
+            List<Pessoa> lista = (List<Pessoa>)Session["ListaPessoas"];
             //Recuperar objeto com id
             var modelBase = lista.
                 Where(p => p.Codigo == model.Codigo).
@@ -87,17 +87,17 @@ namespace WebApplication.Controllers
             Session["ListaPessoas"] = lista;
 
             //Enviar objeto para view;
-            return View("List", (List<PessoaModels>)Session["ListaPessoas"]);
+            return View("List", (List<Pessoa>)Session["ListaPessoas"]);
         }
 
         public ActionResult Delete(int id)
         {
             if (Session["ListaPessoas"] == null)
             {
-                return View("List", new List<PessoaModels>());
+                return View("List", new List<Pessoa>());
             }
 
-            List<PessoaModels> lista = (List<PessoaModels>)Session["ListaPessoas"];
+            List<Pessoa> lista = (List<Pessoa>)Session["ListaPessoas"];
 
             if (!lista.Where(p => p.Codigo == id).Any())
             {
@@ -113,7 +113,7 @@ namespace WebApplication.Controllers
 
             Session["ListaPessoas"] = lista;
 
-            return View("List", (List<PessoaModels>)Session["ListaPessoas"]);
+            return View("List", (List<Pessoa>)Session["ListaPessoas"]);
         }
 
 
@@ -121,10 +121,10 @@ namespace WebApplication.Controllers
         {
             if (Session["ListaPessoas"] != null)
             {
-                var lista = (List<PessoaModels>)Session["ListaPessoas"];
+                var lista = (List<Pessoa>)Session["ListaPessoas"];
                 return View(lista);
             }
-            return View(new List<PessoaModels>());
+            return View(new List<Pessoa>());
         }
     }
 }

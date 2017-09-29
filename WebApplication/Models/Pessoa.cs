@@ -6,9 +6,9 @@ using System.Web;
 
 namespace WebApplication.Models
 {
-    public class PessoaModels
+    public class Pessoa
     {
-        [Required]
+        [Key]
         public int Codigo { get; set; }
 
         [Required]
